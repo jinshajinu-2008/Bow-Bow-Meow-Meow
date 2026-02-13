@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="match_maker1.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <form action="swipe.html">
+            <p>Select your animal</p>
+            <input type="radio" id="cat" name="Animal" value="Cat">
+            <label for="cat">Cat</label><br>
+            <input type="radio" id="dog" name="Animal" value="Dog">
+            <label for="dog">Dog</label><br>
+
+            <p>Select the Location</p>
+            <input type="radio" id="kasaragod" name="Location" value="Kasaragod">
+            <label for="kasaragod">Kasaragod</label><br>
+            <input type="radio" id="kannur" name="Location" value="Kannur">
+            <label for="kannur">Kannur</label><br>
+            <input type="radio" id="kozhikkode" name="Location" value="Kozhikkode">
+            <label for="kozhikkode">Kozhikkode</label><br>
+            <input type="radio" id="wayanad" name="Location" value="Wayanad">
+            <label for="wayanad">Wayanad</label><br>
+            <input type="radio" id="malappuram" name="Location" value="Malappuram">
+            <label for="malappuram">Malappuram</label><br>
+            <input type="radio" id="palakkad" name="Location" value="Palakkad">
+            <label for="palakkad">Palakkad</label><br>
+            <input type="radio" id="thrissur" name="Location" value="Thrissur">
+            <label for="thrissur">Thrissur</label><br>
+            <input type="radio" id="ernakulam" name="Location" value="Ernakulam">
+            <label for="ernakulam">Ernakulam</label><br>
+            <input type="radio" id="alappuzha" name="Location" value="Alappuzha">
+            <label for="alappuzha">Alappuzha</label><br>
+            <input type="radio" id="kottayam" name="Location" value="Kottayam">
+            <label for="kottayam">Kottayam</label><br>
+            <input type="radio" id="pathanamthitta" name="Location" value="Pathanamthitta">
+            <label for="pathanamthitta">Pathanamthitta</label><br>
+            <input type="radio" id="kollam" name="Location" value="Kollam">
+            <label for="kollam">Kollam</label><br>
+            <input type="radio" id="idukki" name="Location" value="Idukki">
+            <label for="idukki">Idukki</label><br>
+            <input type="radio" id="trivandrum" name="Location" value="Trivandrum">
+            <label for="trivandrum">Trivandrum</label><br>
+
+            <input type="text" id="petname" name="fullname" placeholder="Pet's Name" required><br>
+            <input type="number" id="petage" name="age" placeholder="Age" required><br>
+            <input type="text" id="petbreed" name="breed" placeholder="Breed" required><br>
+
+
+            <button type="submit"><b>CREATE</b></button>
+
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('petForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const owner_id = localStorage.getItem('user_id');
+            if (!owner_id) {
+                alert("Please register as a user first!");
+                window.location.href = 'match_maker.html';
+                return;
+            }
+
+            const animalSelect = document.querySelector('input[name="Animal"]:checked');
+            const locationSelect = document.querySelector('input[name="Location"]:checked');
+
+            if (!animalSelect || !locationSelect) {
+                alert("Please select both animal type and location.");
+                return;
+            }
+
+            const petData = {
+                owner_id: owner_id,
+                animal_type: animalSelect.value,
+                location: locationSelect.value,
+                name: document.getElementById('petname').value,
+                age: document.getElementById('petage').value,
+                breed: document.getElementById('petbreed').value
+            };
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/register-pet', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(petData)
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert(result.message);
+                    window.location.href = 'swipe.html';
+                } else {
+                    alert("Error: " + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert("An error occurred.");
+            }
+        });
+    </script>
+</body>
+
+</html>

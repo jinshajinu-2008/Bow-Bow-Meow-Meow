@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<link rel="stylesheet" href="match.css">
+<body>
+
+<h1>Bow!Bow Meow!Meow</h1>
+
+<form id="petForm" action="match.php" method="POST">
+  <select id="pet" required>
+    <option value="">Select Pet</option>
+    <option value="Dog">Dog</option>
+    <option value="India">Cat</option>
+  </select>
+  <input type="text" id="name" placeholder="Pet Name" required>
+  <input type="text" id="ownername" placeholder="Owner's Name" required>
+  <input type="number" id="age" placeholder="Age" required>
+  <input type="text" id="breed" placeholder="Breed" required>
+  <input type="text" id="color" placeholder="Color" required>
+  <select id="gender" required>
+    <option value="">Select Gender</option>
+    <option value="Male">Male</option>
+    <option value="Female">Female</option>
+  </select>
+  <input type="text" id="location" placeholder="Location" required>
+  <button type="submit">Add Pet</button>
+</form>
+
+<div class="cards" id="cardsContainer">
+</div>
+
+<script>
+  let pets = [];
+
+  const form = document.getElementById("petForm");
+  const container = document.getElementById("cardsContainer");
+
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const pet = {
+       pet: document.getElementById("pet").value,
+      name: document.getElementById("name").value,
+      ownername: document.getElementById("ownername").value,
+      age: parseInt(document.getElementById("age").value),
+      breed: document.getElementById("breed").value.toLowerCase(),
+      color: document.getElementById("color").value.toLowerCase(),
+      gender: document.getElementById("gender").value,
+      location: document.getElementById("location").value.toLowerCase()
+    };
+
+    pets.push(pet);
+    form.reset();
+    displayMatches(pet);
+  });
+
+  function displayMatches(newPet) {
+    container.innerHTML = "";
+
+    
+    const matches = pets.filter(p => 
+      p !== newPet && // do not match itself
+      p.animal !== newPet.animal &&
+      p.breed === newPet.breed &&
+      p.location === newPet.location &&
+      p.gender !== newPet.gender &&
+      Math.abs(p.age - newPet.age) <= 1
+    );
+
+    if(matches.length === 0) {
+      container.innerHTML = "<p style='color:red;'>No matches found yet!</p>";
+    }
+
+    matches.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <h3>${p.name}</h3>
+        <p><strong>animal:</strong> ${p.animal}</p>
+        <p><strong>ownername:</strong> ${p.ownername}</p>
+        <p><strong>Breed:</strong> ${p.breed}</p>
+        <p><strong>Age:</strong> ${p.age}</p>
+        <p><strong>Color:</strong> ${p.color}</p>
+        <p><strong>Gender:</strong> ${p.gender}</p>
+        <p><strong>Location:</strong> ${p.location}</p>
+      `;
+      container.appendChild(card);
+    });
+  }
+</script>
+
+</body>
+</html>

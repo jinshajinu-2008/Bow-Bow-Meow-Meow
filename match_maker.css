@@ -1,0 +1,43 @@
+body{
+    background-color: antiquewhite;
+    display: flex;
+}
+div{
+    width: 500px;
+    height: 700px;
+    background-color: black;
+    margin: auto;
+    border: 100px;
+    border-radius: 15%;
+    
+}
+h1{
+    color: white;
+    text-align: center;
+}
+form{
+    display: block;
+}
+input{
+    /* align-items: center; */
+    height: 20px;
+    width: 300px;
+    padding: 10px;
+    /* border-radius: 20%; */
+    background-color: rgb(216, 154, 154);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: auto;
+}
+button{
+    height: 40px;
+    width: 200px;
+    background-color: white;
+    size: 70px;
+    text-align: center;
+    display: block;
+    margin: 20px auto;
+    width: 150px;
+}
