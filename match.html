@@ -10,7 +10,7 @@
 
 <h1>Bow!Bow Meow!Meow</h1>
 
-<form id="petForm" action="match.php" method="POST">
+<form id="petForm">
   <select id="pet" required>
     <option value="">Select Pet</option>
     <option value="Dog">Dog</option>
@@ -64,7 +64,7 @@
     
     const matches = pets.filter(p => 
       p !== newPet && // do not match itself
-      p.animal !== newPet.animal &&
+      p.animal === newPet.animal &&
       p.breed === newPet.breed &&
       p.location === newPet.location &&
       p.gender !== newPet.gender &&
